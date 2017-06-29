@@ -1,10 +1,14 @@
 # clj-anti-zoo-client
 
-A Clojure library designed to ... well, that part is up to you.
+A Client for anti-zoo
 
-## Usage
+## Install in local maven repository
 
-FIXME
+lein do clean, install
+
+## The use in your project
+
+	(:require [anti-zoo-client.core :as azc])
 
 ## License
 
