@@ -1,4 +1,4 @@
-(defproject anti-zoo-client "0.1.0-SNAPSHOT"
+(defproject anti-zoo-client "0.1.0"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
@@ -11,4 +11,6 @@
                  [org.clojure/tools.logging "0.3.1"]
                  [org.slf4j/slf4j-api "1.7.19"]
                  [org.slf4j/slf4j-log4j12 "1.7.19"]
-                 [org.slf4j/jcl-over-slf4j "1.7.19"]])
+                 [org.slf4j/jcl-over-slf4j "1.7.19"]]
+  :aot :all
+  :pedantic? :warn)
