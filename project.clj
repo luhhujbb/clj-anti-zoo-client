@@ -5,8 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                   ;;for proxy
-                 [clj-http "2.1.0"]
-                 [cheshire "5.7.0"]
+                 [clj-http "3.6.1"]
+                 [cheshire "5.7.1"]
                  ;; logging stuff
                  [org.clojure/tools.logging "0.3.1"]
                  [org.slf4j/slf4j-api "1.7.19"]
