@@ -45,6 +45,20 @@
                 })]
       (:body resp)))
 
+(defn manage-el-worker
+  "add/rm a worker for an element"
+  [client id action]
+  (let [resp (http/put
+                (str (:conn client) "/state/el/worker/" id "/" (name action))
+                {
+                  :as :json
+                  :accept :json
+                  :socket-timeout 9000
+                  :conn-timeout 9000
+                  :throw-exceptions false
+                })]
+      (:body resp)))
+
 (defn get-els
   "get els which match state (and type if defined)"
   [client state & [type]]
