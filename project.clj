@@ -1,4 +1,4 @@
-(defproject anti-zoo-client "0.1.2"
+(defproject anti-zoo-client "0.1.3"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
@@ -6,7 +6,8 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                   ;;for proxy
                  [clj-http "3.6.1"]
-                 [cheshire "5.7.1"]
+                 [cheshire "5.8.0"]
+                 [org.clojure/core.async "0.3.465"]
                  ;; logging stuff
                  [org.clojure/tools.logging "0.3.1"]
                  [org.slf4j/slf4j-api "1.7.19"]

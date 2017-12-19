@@ -1,6 +1,7 @@
 (ns anti-zoo-client.core
   (:require
     [clojure.string :as str]
+    [clojure.core.async :refer [chan >!! <!! thread]]
     [clj-http.client :as http]
     [cheshire.core :refer :all]
     [clojure.tools.logging :as log]))
@@ -44,6 +45,24 @@
                   :throw-exceptions false
                 })]
       (:body resp)))
+
+(defn mk-watcher
+  "Watch change for an element"
+  [client id]
+  (let [state (atom {})
+        change (chan 64)
+        run? (atom true)]
+    (thread
+        (while run?
+          (try
+            (let [el (get-el client id)]
+              (when-not (= @state el)
+                (>!! change el)))
+            (catch Exception e
+              nil))
+          (Thread/sleep 1000)))
+    {:event change
+     :switch run?}))
 
 (defn manage-el-worker
   "add/rm a worker for an element"
