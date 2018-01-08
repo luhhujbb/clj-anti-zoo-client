@@ -1,7 +1,7 @@
 (ns anti-zoo-client.core
   (:require
     [clojure.string :as str]
-    [clojure.core.async :refer [chan >!! <!! thread]]
+    [clojure.core.async :refer [chan >!! <!! thread close!]]
     [clj-http.client :as http]
     [cheshire.core :refer :all]
     [clojure.tools.logging :as log]))
@@ -57,10 +57,12 @@
           (try
             (let [el (get-el client id)]
               (when-not (= @state el)
-                (>!! change el)))
+                (>!! change el)
+                (reset! state el)))
             (catch Exception e
               nil))
-          (Thread/sleep 1000)))
+          (Thread/sleep 1000))
+          (close! chan))
     {:event change
      :switch run?}))
 
