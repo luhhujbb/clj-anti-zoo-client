@@ -55,7 +55,8 @@
         change (chan 64)
         run? (atom true)]
     (thread
-        (while run?
+      (log/info "watcher started")
+        (while @run?
           (try
             (let [el (get-el client id)]
               (when-not (= @state el)
@@ -64,6 +65,7 @@
             (catch Exception e
               nil))
           (Thread/sleep 1000))
+          (log/info "watcher stopped")
           (close! change))
     {:event change
      :switch run?}))
