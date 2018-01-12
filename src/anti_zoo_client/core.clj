@@ -64,7 +64,7 @@
             (catch Exception e
               nil))
           (Thread/sleep 1000))
-          (close! chan))
+          (close! change))
     {:event change
      :switch run?}))
 
