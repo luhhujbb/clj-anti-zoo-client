@@ -10,6 +10,14 @@
   [host port]
   {:conn (str "http://" host ":" port)})
 
+(def call-options {
+  :as :json
+  :accept :json
+  :socket-timeout 9000
+  :conn-timeout 9000
+  :throw-exceptions false
+})
+
 (defn save-el
   "save state into anti-zoo"
   [client id state type ts info]
@@ -37,13 +45,7 @@
   [client id]
   (let [resp (http/get
                 (str (:conn client) "/state/el/" id)
-                {
-                  :as :json
-                  :accept :json
-                  :socket-timeout 9000
-                  :conn-timeout 9000
-                  :throw-exceptions false
-                })]
+                call-options)]
       (:body resp)))
 
 (defn mk-watcher
@@ -71,13 +73,7 @@
   [client id action]
   (let [resp (http/put
                 (str (:conn client) "/state/el/worker/" id "/" (name action))
-                {
-                  :as :json
-                  :accept :json
-                  :socket-timeout 9000
-                  :conn-timeout 9000
-                  :throw-exceptions false
-                })]
+                call-options)]
       (:body resp)))
 
 (defn get-els
@@ -88,14 +84,24 @@
               (str (:conn client) "/state/els/" state))
         resp (http/get
                 url
-                {
-                  :as :json
-                  :accept :json
-                  :socket-timeout 9000
-                  :conn-timeout 9000
-                  :throw-exceptions false
-                })]
+                call-options)]
       (:body resp)))
+
+(defn acquire-lock
+  "lock an element"
+  [client id]
+  (let [resp (http/get
+                (str (:conn client) "/lock/acquire/" id)
+                call-options)]
+      (get-in resp [:body :lockAcquired])))
+
+(defn release-lock
+  "lock an element"
+  [client id]
+  (let [resp (http/get
+                (str (:conn client) "/lock/release/" id)
+                call-options)]
+      (get-in resp [:body :lockReleased])))
 
 (defn switch-els-state
   "Switch state for all elements which match source state, to target state"
@@ -103,11 +109,5 @@
   (let [url (str (:conn client) "/state/els/switch/" source-state "/" target-state)
         resp (http/get
                 url
-                {
-                  :as :json
-                  :accept :json
-                  :socket-timeout 9000
-                  :conn-timeout 9000
-                  :throw-exceptions false
-                })]
+                call-options)]
       (:body resp)))
